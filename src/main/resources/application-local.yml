@@ -24,10 +24,14 @@ spring:
       - org.springframework.boot.autoconfigure.data.elasticsearch.ElasticsearchRepositoriesAutoConfiguration
       - org.springframework.boot.actuate.autoconfigure.elasticsearch.ElasticsearchRestHealthContributorAutoConfiguration
   datasource:
-    url: jdbc:mariadb://localhost:3306/shoescms
-    driver-class-name: org.mariadb.jdbc.Driver
-    username: root
-    password:
+#    url: jdbc:mariadb://localhost:3306/shoescms
+#    driver-class-name: org.mariadb.jdbc.Driver
+#    username: root
+#    password:
+    url: jdbc:mysql://mysql-shoes-bietcankhong-4a79.i.aivencloud.com:27469/shoescms
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
     hikari:
       connection-timeout: 10000
       idleTimeout: 10000
