@@ -45,18 +45,24 @@ public class CmsApplication {
 //    }
 private static void initFirebaseInstance() throws IOException {
     if (FirebaseApp.getApps().isEmpty()) {
+        // Đường dẫn thực tế của file secret trên Render
+        File file = new File("/etc/secrets/firebase_secret.json");
 
-//            FileInputStream serviceAccount =
-//                    new FileInputStream("./firebase_secret.json");
-        ClassLoader classLoader = CmsApplication.class.getClassLoader();
-        File file = new File(Objects.requireNonNull(classLoader.getResource("/etc/secrets/firebase_secret.json")).getFile());
-        InputStream is =  new ClassPathResource("/etc/secrets/firebase_secret.json").getInputStream();FirebaseOptions options = FirebaseOptions.builder()
-                .setCredentials(GoogleCredentials.fromStream(is))
+        // Kiểm tra nếu file không tồn tại
+        if (!file.exists()) {
+            throw new FileNotFoundException("Firebase secret file not found at /etc/secrets/firebase_secret.json");
+        }
+
+        // Đọc file JSON từ đường dẫn
+        FileInputStream serviceAccount = new FileInputStream(file);
+
+        FirebaseOptions options = FirebaseOptions.builder()
+                .setCredentials(GoogleCredentials.fromStream(serviceAccount))
                 .setStorageBucket("shoes-f5194.appspot.com")
                 .build();
+
         FirebaseApp.initializeApp(options);
     }
-
 }
 
 
